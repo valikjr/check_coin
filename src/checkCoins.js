@@ -74,3 +74,4 @@ async function main() {
 }
 
 main();
+// helper function 1
