@@ -21,3 +21,4 @@ Extra update 20: improving coin tracking
 Extra update 21: improving coin tracking
 Extra update 22: improving coin tracking
 Extra update 23: improving coin tracking
+Extra update 24: improving coin tracking
