@@ -8,3 +8,4 @@ Update 7: coin monitoring logic improvement
 Update 8: coin monitoring logic improvement
 Update 9: coin monitoring logic improvement
 Update 10: coin monitoring logic improvement
+Extra update 11: improving coin tracking
