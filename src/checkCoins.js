@@ -1,3 +1,5 @@
+import fs from "fs";
+
 async function getTopCoins() {
   const url =
     "https://api.coingecko.com/api/v3/coins/markets" +
@@ -30,6 +32,11 @@ function sortByMovement(coins) {
   );
 }
 
+function saveToFile(coins) {
+  fs.writeFileSync("result.json", JSON.stringify(coins, null, 2));
+  console.log("\nSaved to result.json");
+}
+
 function printCoins(coins) {
   console.log("Strong price movements from top 150 coins:\n");
 
@@ -45,7 +52,9 @@ async function main() {
     const coins = await getTopCoins();
     const filtered = filterStrong(coins);
     const sortedCoins = sortByMovement(filtered);
+
     printCoins(sortedCoins);
+    saveToFile(sortedCoins);
   } catch (error) {
     console.error("Error:", error.message);
   }
