@@ -1,4 +1,4 @@
-≈async function getTopCoins() {
+async function getTopCoins() {
   const url =
     "https://api.coingecko.com/api/v3/coins/markets" +
     "?vs_currency=usd" +
@@ -16,6 +16,14 @@
   return response.json();
 }
 
+function sortByMovement(coins) {
+  return coins.sort(
+    (a, b) =>
+      Math.abs(b.price_change_percentage_24h) -
+      Math.abs(a.price_change_percentage_24h)
+  );
+}
+
 function printCoins(coins) {
   console.log("Top 150 coins price changes:\n");
 
@@ -29,7 +37,8 @@ function printCoins(coins) {
 async function main() {
   try {
     const coins = await getTopCoins();
-    printCoins(coins);
+    const sortedCoins = sortByMovement(coins);
+    printCoins(sortedCoins);
   } catch (error) {
     console.error("Error:", error.message);
   }
