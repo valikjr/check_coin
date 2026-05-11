@@ -16,6 +16,12 @@ async function getTopCoins() {
   return response.json();
 }
 
+function filterStrong(coins) {
+  return coins.filter(
+    (coin) => Math.abs(coin.price_change_percentage_24h) > 5
+  );
+}
+
 function sortByMovement(coins) {
   return coins.sort(
     (a, b) =>
@@ -25,7 +31,7 @@ function sortByMovement(coins) {
 }
 
 function printCoins(coins) {
-  console.log("Top 150 coins price changes:\n");
+  console.log("Strong price movements from top 150 coins:\n");
 
   coins.slice(0, 20).forEach((coin, index) => {
     console.log(
@@ -37,7 +43,8 @@ function printCoins(coins) {
 async function main() {
   try {
     const coins = await getTopCoins();
-    const sortedCoins = sortByMovement(coins);
+    const filtered = filterStrong(coins);
+    const sortedCoins = sortByMovement(filtered);
     printCoins(sortedCoins);
   } catch (error) {
     console.error("Error:", error.message);
