@@ -24,6 +24,13 @@ function filterStrong(coins) {
   );
 }
 
+function splitGainersLosers(coins) {
+  const gainers = coins.filter(c => c.price_change_percentage_24h > 0);
+  const losers = coins.filter(c => c.price_change_percentage_24h < 0);
+
+  return { gainers, losers };
+}
+
 function sortByMovement(coins) {
   return coins.sort(
     (a, b) =>
@@ -37,10 +44,10 @@ function saveToFile(coins) {
   console.log("\nSaved to result.json");
 }
 
-function printCoins(coins) {
-  console.log("Strong price movements from top 150 coins:\n");
+function printList(title, coins) {
+  console.log(`\n${title}\n`);
 
-  coins.slice(0, 20).forEach((coin, index) => {
+  coins.slice(0, 10).forEach((coin, index) => {
     console.log(
       `${index + 1}. ${coin.symbol.toUpperCase()} | ${coin.name} | $${coin.current_price} | ${coin.price_change_percentage_24h}%`
     );
@@ -51,10 +58,16 @@ async function main() {
   try {
     const coins = await getTopCoins();
     const filtered = filterStrong(coins);
-    const sortedCoins = sortByMovement(filtered);
 
-    printCoins(sortedCoins);
-    saveToFile(sortedCoins);
+    const { gainers, losers } = splitGainersLosers(filtered);
+
+    const sortedGainers = sortByMovement(gainers);
+    const sortedLosers = sortByMovement(losers);
+
+    printList("TOP GAINERS", sortedGainers);
+    printList("TOP LOSERS", sortedLosers);
+
+    saveToFile(filtered);
   } catch (error) {
     console.error("Error:", error.message);
   }
